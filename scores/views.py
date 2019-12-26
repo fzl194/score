@@ -793,4 +793,5 @@ def UpdateCourse(request, coursename):
 
     return HttpResponseRedirect('/teacher/')
 def page_not_found(request):
-    return render(request, '404.html', status=404)
+    return HttpResponseRedirect('/login/')
+

@@ -43,4 +43,5 @@ urlpatterns = [
     path('addcourse/',views.AddCourse),
     path('delcourse/<str:coursename>/', views.DelCourse),
     path('updatecourse/<str:coursename>/', views.UpdateCourse),
+    path('',views.page_not_found),
 ]
