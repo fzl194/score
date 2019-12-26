@@ -15,7 +15,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from scores import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', views.Login),
+    path('outlogin/', views.OutLogin),
+    path('upload/', views.Upload),
+    path('uploadfile/', views.Uploadfile),
+    path('download/', views.Download),
+    path('index/', views.Index),
+    path('studentscore/', views.StudentScore),
+    path('student/<int:studentid>/', views.StudentID),
+    path('updatestudent/<int:studentid>/', views.UpdateStudent),
+    path('updatestudentscore/<int:studentid>/', views.UpdateStudentScore),
+    path('problemscore/', views.ProblemScore),
+    path('knowledge/',views.Knowledge),
+    path('updateknowledge/', views.UpdateKnowledge),
+    path('addknowledge/', views.AddKnowledge),
+    path('queryknowledge/', views.QueryKnowledge),
+    path('problem/', views.Problem),
+    path('updateproblem/', views.UpdateProblem),
+    path('teacher/', views.Teacher),
+    path('updateteacher/', views.UpdateTeacher),
+    path('updatepassword/', views.UpdatePassword),
+    path('intocourse/<str:coursename>/', views.IntoCourse),
+    path('addcourse/',views.AddCourse),
+    path('delcourse/<str:coursename>/', views.DelCourse),
+    path('updatecourse/<str:coursename>/', views.UpdateCourse),
 ]

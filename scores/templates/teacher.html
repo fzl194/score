@@ -1,0 +1,242 @@
+{% extends 'basic.html' %}
+{% block css %}
+<link href="/static/dist/css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+		<!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor STYLE1">教师信息</h4>
+                  </div>
+				  <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">主页</a></li>
+                                <li class="breadcrumb-item active">教师管理</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-6 col-xlg-3 col-md-5">
+						<h4 class="text-themecolor">{{teacher.name}} 个人信息 </h4>
+                        <div class="card">
+                            <div class="card-body">
+                                <center class="m-t-30"> <img src="/static/assets/images/users/5.jpg" class="img-circle" width="150" />
+                                    <h4 class="card-title m-t-10">{{teacher.name}}</h4>
+                                    
+                                </center>
+                            </div>
+                        
+                        
+                            <!-- Tab panes -->
+                            <div class="card-body">
+                                <form class="form-horizontal form-material" action = '/updateteacher/' method = "POST">
+                                    <div class="form-group">
+                                        <label class="col-md-12">真实姓名</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "truename" value = "{{teacher.truename}}" class="form-control form-control-line" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">邮箱</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "email" value = "{{teacher.email}}" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-12">手机号</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "phone" value = "{{teacher.phone}}" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12">性别</label>
+                                        <div class="col-sm-12">
+                                            <select name = 'sex' class="form-control form-control-line">
+                                                <option value = 0 {% if teacher.sex == 0 %} selected="selected" {%endif%} >男</option>
+                                                <option value = 1 {% if teacher.sex == 1 %} selected="selected" {%endif%}>女</option>
+                                                <option value = 2 {% if teacher.sex == 2 %} selected="selected" {%endif%}>未知</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-success">更新教师信息</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+						</div>
+						
+						<h4 class="text-themecolor"> 修改密码 {{messige}} </h4>
+						<div class="card">
+							<div class="card-body">
+								<form class="form-horizontal form-material" action = '/updatepassword/' method = "POST">
+									<div class="form-group">
+										<label class="col-md-12">旧密码</label>
+										<div class="col-md-12">
+											<input type="password" name = "password1" class="form-control form-control-line">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-12">新密码</label>
+										<div class="col-md-12">
+											<input type="password" name = "password2" class="form-control form-control-line">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-12">重复新密码</label>
+										<div class="col-md-12">
+											<input type="password" name = "password3"  class="form-control form-control-line">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<button type="submit" class="btn btn-success">更新密码</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+							<div class="col-lg-6 col-xlg-9 col-md-7">
+						<h4 class="text-themecolor">选择课程</h4>
+						<div class="card">
+                            <div class="card-body">
+								<table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">编号</th>
+                                            <th class="text-center">课程</th>
+                                            <th class="text-center">修改课程</th>
+                                            <th class="text-center">切换课程</th>
+                                            <th class="text-center">删除课程</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+									{% for item in course %}
+                                        <tr>
+                                            <td class="text-center">{{item.0}}<br /></td>
+                                            <form action="/updatecourse/{{item.1}}/"  method="POST" >
+											<td class="text-center">
+											<input name = "newname" style='text-align:center' type="text" value ={{item.1}} />
+											</td>
+											
+											<td class="text-center">
+											
+													<button type="submit" class="btn btn-block btn-success"  style="width:75%;margin:0px auto;">重命名</button>	
+											</td>
+											</form>
+											<td class="text-center" align="center">
+											
+												  <form action="/intocourse/{{item.1}}/"  method="get" >
+													<button type="submit" class="btn btn-block btn-success"  style="width:75%;margin:0px auto;">进入课程</button>
+													</form>
+
+											</td>
+											<td style="text-align:center">
+											
+												  <form action="/delcourse/{{item.1}}/" onsubmit="return delconfirm()" method="post" >
+													<button  type="submit" class="btn btn-block btn-success"  style="width:75%;margin:0px auto;">删除课程</button>
+													</form>
+											</td>
+											
+                                        </tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+								
+                            </div>
+                        </div>
+						<h4 class="text-themecolor">开设课程</h4>
+                        <div class="card">
+                            <div class="card-body">
+							<form class="form-horizontal form-material" action = '/addcourse/' method = "POST">
+								<div class="form-group">
+										<label class="col-md-12">新课程名</label>
+										<div class="col-md-12">
+											<input type="text" name = "coursename" class="form-control form-control-line">
+										</div>
+									</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<button  type="submit"  class="btn btn-success">添加课程</button>
+									</div>
+                                </div>
+							</form>
+                            </div>
+                        </div>
+						
+						
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+{% endblock %}
+
+
+{% block js %} 
+	<script src="/static/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/static/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/static/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/static/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/static/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/static/dist/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/static/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/static/assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/static/dist/js/custom.min.js"></script>
+	    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+	  <script>
+        function delconfirm() {
+            if(confirm("确定要删除吗？将会同时删除该课程知识点，题目，以及所有对应成绩")){
+                return true;
+            }else {
+                return false;
+            }
+            }
+</script>
+{% endblock %}

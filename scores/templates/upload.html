@@ -1,0 +1,170 @@
+{% extends 'basic.html' %}
+{% block css %}
+<link href="/static/dist/css/style.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">成绩上传</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">主页</a></li>
+                                <li class="breadcrumb-item active">成绩上传</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                
+			<div role="tabpanel" class="tab-pane active" id="add_doc">
+			<div class="row" style="margin-top: 10px;">
+				<form class="form-inline" id="excelForm" action="/uploadfile/" method="post" enctype="multipart/form-data">
+					<div class="form-group" style="margin-left: 30px">
+						<label for="fileupload">浏览:</label>
+						<input id="fileupload" type="file" name="fileupload" accept=".csv" multiple="" style="display:none;" />
+						<input type='text' class="form-control" name='textfield' id='textfield' autocomplete="off" readonly="readonly" />
+						<input id="excelImport" type="button" value="浏览" class="btn btn-primary" />
+					</div>
+					<div>&nbsp;  &nbsp;  &nbsp;  </div>
+					<button type="submit" id="uploadSubmit" class="btn btn-primary">上传</button>
+				</form>
+				<form class="form-inline" id="excelForm1" action="/download/" method="post" >
+					<div>&nbsp;  &nbsp;  &nbsp;  </div>
+					<button type="submit" id="uploadSubmit" class="btn btn-primary">下载模板</button>
+				</form>
+			</div>
+				
+				
+                <p></p>
+				<div class="col-md-5 align-self-center">
+					<h4 class="text-themecolor">{{request.session.course}}&nbsp;  &nbsp;题目表</h4>
+                </div>
+				<p></p>
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>编号</th>
+                                                <th>题目</th>
+                                                <th>题目总分</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										{% for item in problemtable%}
+                                            <tr>
+                                                <td>{{item.0}}</td>
+                                                <td>{{item.1}}</td>
+                                                <td>{{item.2}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+				
+				
+				<div class="col-md-5 align-self-center">
+					<h4 class="text-themecolor">{{request.session.course}}&nbsp;  &nbsp;分数表</h4>
+                </div>
+				
+				<div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                {% for item in scoretablehead %}
+												<th>{{ item }}</th>
+												{% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											{% for item in scoretable %}
+                                            <tr>
+												{% for tmp in item %}
+                                                <td>{{tmp}}</td>
+												{% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+{% endblock %}
+{% block js %}
+<script src="/static/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/static/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/static/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/static/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/static/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/static/dist/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/static/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/static/assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/static/dist/js/custom.min.js"></script>
+	<script>
+				$(document).ready(function() {
+			 
+					$("#excelImport").click(function() {
+						$('#fileupload').click();
+					});
+			 
+					$("#uploadSubmit").click(function() {
+			 
+						$('#excelForm').submit();
+					});
+					
+			 
+					$('#fileupload').change(function(){
+						document.getElementById("textfield").value =                     
+						document.getElementById("fileupload").files[0].name;
+					})
+				});
+			</script>
+{% endblock %}
+

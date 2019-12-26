@@ -1,0 +1,296 @@
+{% extends 'basic.html' %}
+	{% block css %}
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <link href="/static/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+    <!--c3 plugins CSS -->
+    <link href="/static/assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/dist/css/style.css" rel="stylesheet">
+    <!-- Dashboard 1 Page CSS -->
+    <link href="/static/dist/css/pages/dashboard1.css" rel="stylesheet">
+    
+	{% endblock %}
+	{% block content %}
+	<!-- ============================================================== -->
+	<!-- Page wrapper  -->
+	<!-- ============================================================== -->
+	<div class="page-wrapper">
+		<!-- ============================================================== -->
+		<!-- Container fluid  -->
+		<!-- ============================================================== -->
+		<div class="container-fluid">
+			<!-- ============================================================== -->
+			<!-- Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<div class="row page-titles">
+				<div class="col-md-5 align-self-center">
+					<h4 class="text-themecolor">{{request.session.course}} 分数统计</h4>
+				</div>
+				<div class="col-md-7 align-self-center text-right">
+					<div class="d-flex justify-content-end align-items-center">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0)">主页</a></li>
+							<li class="breadcrumb-item active">管理面板</li>
+						</ol>
+						 </div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Yearly Sales -->
+			<!-- ============================================================== -->
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="card oh">
+						<div class="card-body">
+							<div class="d-flex m-b-30 align-items-center no-block">
+								<h5 class="card-title ">总得分分布</h5>
+								<div class="ml-auto">
+									<ul class="list-inline font-12">
+										<li><i class="fa fa-circle" style="color:#0099ff"></i> 分数段</li>
+									</ul>
+								</div>
+							</div>
+							<div id="total_bar" style="height: 345px;"></div>
+						</div>
+						<div class="card-body bg-light">
+							<div class="row text-center m-b-20">
+								<div class="col-lg-3 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score.0}}</h2><span class="text-muted">总分</span>                                    </div>
+								<div class="col-lg-3 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score.1}}</h2><span class="text-muted">班级平均分</span>                                    </div>
+								<div class="col-lg-3 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score.2}}</h2><span class="text-muted">班级总人数</span>                                    </div>
+								<div class="col-lg-3 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score.8}}</h2><span class="text-muted">及格率</span>                                    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="card">
+						<!-- Tab panes -->
+						<div class="card-body">
+							<form class="form-horizontal form-material">
+								<div class="form-group">
+									<label class="col-sm-12">班级得分统计</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">科目</label>
+									<p></p>
+									<label class="col-md-12">{{request.session.course}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">最高分</label>
+									<p></p>
+									<label class="col-md-12">{{score.3}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">最低分</label>
+									<p></p>
+									<label class="col-md-12">{{score.4}}</label>
+								</div> 
+								<div class="form-group">
+									<label class="col-md-12">中位分</label>
+									<p></p>
+									<label class="col-md-12">{{score.5}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">标准差</label>
+									<p></p>
+									<label class="col-md-12">{{score.6}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">方差</label>
+									<p></p>
+									<label class="col-md-12">{{score.7}}</label>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- News -->
+			<!-- ============================================================== -->
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="card oh">
+						<div class="card-body">
+							<div class="d-flex m-b-30 align-items-center no-block">
+								<h5 class="card-title ">小题得分分布</h5>
+								<div class="ml-auto">
+									<ul class="list-inline font-12">
+										<li><i class="fa fa-circle" style="color:#0099ff"></i> 得分</li>
+									</ul>
+								</div>
+							</div>
+							<div id="que_bar" style="height: 360px;"></div>
+						</div>
+						<div class="card-body bg-light">
+							<div class="row text-center m-b-20">
+								<div class="col-lg-4 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score1.0}}</h2><span class="text-muted">总分</span>                                    </div>
+								<div class="col-lg-4 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score1.1}}</h2><span class="text-muted">班级平均分</span>                                    </div>
+								<div class="col-lg-4 col-md-6 m-t-20">
+									<h2 class="m-b-0 font-light">{{score1.2}}</h2><span class="text-muted">班级总人数</span>                                    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="card">
+						<!-- Tab panes -->
+						<div class="card-body">
+							<form class="form-horizontal form-material" action="/index/"method="post">
+								<div class="form-group">
+									<label class="col-sm-12">选择题号</label>
+									<div class="col-sm-12">
+										<select class="form-control form-control-line" name = "option">
+											{% for item in problems %}
+											<option value = {{item.0}} {% if selects == item.0 %}selected="selected"{% endif %} >{{item.0}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">最高分</label>
+									<p></p>
+									<label class="col-md-12">{{score1.3}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">最低分</label>
+									<p></p>
+									<label class="col-md-12">{{score1.4}}</label>
+								</div> 
+								<div class="form-group">
+									<label class="col-md-12">中位分</label>
+									<p></p>
+									<label class="col-md-12">{{score1.5}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">标准差</label>
+									<p></p>
+									<label class="col-md-12">{{score1.6}}</label>
+								</div>
+								<div class="form-group">
+									<label class="col-md-12">方差</label>
+									<p></p>
+									<label class="col-md-12">{{score1.7}}</label>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<button type="submit" class="btn btn-success">查询题目</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Container fluid  -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page wrapper  -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- footer -->
+	<!-- ============================================================== -->
+	
+	<!-- ============================================================== -->
+	<!-- End footer -->
+	<!-- ============================================================== -->
+    {% endblock %}
+
+	
+	{% block js %}
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/static/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="/static/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/static/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/static/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/static/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/static/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/static/dist/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--morris JavaScript -->
+    <script src="/static/assets/node_modules/raphael/raphael-min.js"></script>
+    <script src="/static/assets/node_modules/morrisjs/morris.min.js"></script>
+    <script src="/static/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!--c3 JavaScript -->
+    <script src="/static/assets/node_modules/d3/d3.min.js"></script>
+    <script src="/static/assets/node_modules/c3-master/c3.min.js"></script>
+    <!-- Chart JS -->
+    <script >
+	$(function() {
+    "use strict";
+    // Dashboard 1 Morris-chart
+	Morris.Bar({
+        element: 'total_bar',
+        data: [
+		{% for item in scoreinterval %}
+		{
+            label: '{{item.0}} ~ {{item.1}}',
+            Number: {{item.2}},
+        }, 
+		{% endfor %}
+            ],
+        xkey: 'label',
+        ykeys: ['Number'],
+        labels: ['Number'],
+        pointSize: 0,
+        fillOpacity: 0,
+        pointStrokeColors: [ '#009efb','#7460ee'],
+        behaveLikeLine: true,
+        gridLineColor: '#f6f6f6',
+        lineWidth: 1,
+        hideHover: 'auto',
+		barColors: ['#0099ff'],
+        resize: true
+    });
+	
+    Morris.Bar({
+        element: 'que_bar',
+		data: [
+		{% for item in scoreinterval1 %}
+		{
+            label: '{{item.0}} ~ {{item.1}}',
+            Number: {{item.2}},
+        }, 
+		{% endfor %}
+            ],
+        xkey: 'label',
+        ykeys: ['Number'],
+        labels: ['Number'],
+        pointSize: 0,
+        fillOpacity: 0,
+        pointStrokeColors: [ '#009efb','#7460ee'],
+        behaveLikeLine: true,
+        gridLineColor: '#f6f6f6',
+        lineWidth: 1,
+        hideHover: 'auto',
+		barColors: ['#0099ff'],
+        resize: true
+    });
+
+});
+	</script>
+	{% endblock %}

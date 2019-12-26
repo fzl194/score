@@ -4,11 +4,18 @@ from django.db import models
 
 #教师表
 class Teacher(models.Model):
-    name = models.CharField(max_length=100, verbose_name = '用户名')
+    name = models.CharField(max_length=100, verbose_name = '用户名', unique=True)
     password = models.CharField(max_length=100, verbose_name = '密码')
     newpassword = models.CharField(max_length=100, blank = True, null = True, default="", verbose_name = '新密码')
     truename = models.CharField(max_length=100, blank = True, verbose_name = '真实姓名', null = True)
     email = models.CharField(max_length=100, blank = True, verbose_name="邮箱", null = True)
+    phone = models.CharField(max_length=100,null=True, blank=True, verbose_name='手机')
+    choices_gender = (
+        (0,'男'),
+        (1,'女'),
+        (2,'未知')
+    )
+    sex = models.IntegerField(choices=choices_gender, default=2, verbose_name='性别')
     
     class Meta:
         #数据库表格名称
@@ -25,7 +32,7 @@ class Teacher(models.Model):
 class Course(models.Model):
     #教师外键：一门课属于一位教师
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE,  verbose_name = '教师')
-    name = models.CharField(max_length=100, verbose_name = '课程名')
+    name = models.CharField(max_length=100, verbose_name = '课程名', unique=True)
     def Get_Teacher_Truename(self):
         return self.teacher.truename
     Get_Teacher_Truename.short_description = '开课教师'
@@ -33,28 +40,34 @@ class Course(models.Model):
         db_table = 'Course'
         verbose_name = '课程表'
         verbose_name_plural = verbose_name
+        unique_together = ('teacher', 'name',)
     def __str__(self):
         return self.name
 
 class Course_Problem(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name = '课程')
     problem = models.CharField(max_length=100, verbose_name = '课程题目')
+    problem_detail = models.TextField(default='', verbose_name='题目内容')
     scoresum = models.IntegerField(default=0, verbose_name = '题目总分')
     course_knowledge = models.ManyToManyField('Course_Knowledge', through='Problem_Knowledge', verbose_name = '题目对应知识点')
     class Meta:
         db_table = 'Course_Problem'
         verbose_name = '课程题目表'
         verbose_name_plural = verbose_name
+        unique_together = ('course', 'problem',)
     def __str__(self):
         return self.course.name + " " + self.problem
 
 class Course_Knowledge(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name = '课程')
     knowledge = models.CharField(max_length=100, verbose_name = '课程知识点')
+    knowledge_detail = models.TextField(default='', verbose_name='知识点内容')
     class Meta:
         db_table = 'Course_Knowledge'
         verbose_name = '课程知识点表'
         verbose_name_plural = verbose_name
+        
+        unique_together = ('course', 'knowledge',)
     def __str__(self):
         return self.course.name + " " + self.knowledge
 
@@ -79,7 +92,7 @@ class Problem_Knowledge(models.Model):
         return self.course_problem.problem + " " + self.course_knowledge.knowledge + " " + self.course_problem.course.name
 
 class Student(models.Model):
-    studentid = models.CharField(max_length=100, verbose_name = '学号')
+    studentid = models.CharField(max_length=100, verbose_name = '学号', unique=True)
     studentname = models.CharField(max_length=100,null = True, blank = True, verbose_name='姓名')
     email = models.CharField(max_length=100,null = True, blank = True, verbose_name='邮箱')
     phone = models.CharField(max_length=100,null=True, blank=True, verbose_name='手机')

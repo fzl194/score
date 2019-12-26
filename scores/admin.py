@@ -17,7 +17,7 @@ admin.site.site_title = '后台管理'
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
     #展示教师表字段：ID、用户名
-    list_display = ('id', 'name','truename','email')
+    list_display = ('id', 'name','truename','email','phone','sex')
     #点击id和name进入编辑界面
     list_display_links = ('id', 'name')
     #默认按照id升序
@@ -29,7 +29,9 @@ class TeacherAdmin(admin.ModelAdmin):
     #开启底部action
     actions_on_bottom=True
     #修改列表，此处只允许修改newpassword、和数据库底层触发器配套使用
-    fields = ('name', 'newpassword','truename','email')
+    fields = ('name', 'newpassword','truename','email','phone','sex')
+    #右侧过滤器
+    list_filter = ('sex',)
 
 
 
@@ -76,7 +78,7 @@ class Course_ProblemAdmin(admin.ModelAdmin):
     #开启底部action
     actions_on_bottom=True
     #修改列表
-    fields = ('problem', 'course','scoresum')
+    fields = ('problem', 'problem_detail','course','scoresum')
     inlines = [
         Problem_Knowledge_AdminLine,
     ]
@@ -100,7 +102,7 @@ class Course_KnowledgeAdmin(admin.ModelAdmin):
     #开启底部action
     actions_on_bottom=True
     #修改列表
-    fields = ('knowledge', 'course')
+    fields = ('knowledge','knowledge_detail', 'course')
 
 
 '''

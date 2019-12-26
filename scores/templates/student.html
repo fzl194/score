@@ -1,0 +1,189 @@
+{% extends 'basic.html' %}
+{% block css %}
+<link href="/static/dist/css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+		<!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor STYLE1">学生信息</h4>
+                  </div>
+				  <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">主页</a></li>
+                                <li class="breadcrumb-item active">学生管理</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <center class="m-t-30"> <img src="/static/assets/images/users/5.jpg" class="img-circle" width="150" />
+                                    <h4 class="card-title m-t-10">{{student.0}}</h4>
+                                    <h4 class="card-title m-t-10">总分：{{sum}}</h4>
+                                    
+                                </center>
+                            </div>
+                        
+                        
+                            <!-- Tab panes -->
+                            <div class="card-body">
+                                <form class="form-horizontal form-material" action = '/updatestudent/{{student.0}}/' method = "POST">
+                                    <div class="form-group">
+                                        <label class="col-md-12">真实姓名</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "studentname" value = {{student.1}} class="form-control form-control-line" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">邮箱</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "email" value = {{student.2}} class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-12">手机号</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name = "phone" value = "{{student.3}}" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12">性别</label>
+                                        <div class="col-sm-12">
+                                            <select name = 'sex' class="form-control form-control-line">
+                                                <option value = 0 {% if student.4 == 0 %} selected="selected" {%endif%} >男</option>
+                                                <option value = 1 {% if student.4 == 1 %} selected="selected" {%endif%}>女</option>
+                                                <option value = 2 {% if student.4 == 2 %} selected="selected" {%endif%}>未知</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-success">更新学生信息</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+							</div>
+						<h4 class="text-themecolor">题目得分  总分：{{sum}}</h4>
+                        <div class="card">
+                            <div class="card-body">
+							<form class="form-horizontal form-material" action = '/updatestudentscore/{{student.0}}/' method = "POST">
+								<table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">编号</th>
+                                            <th class="text-center">题目</th>
+                                            <th class="text-center">题目对应知识点</th>
+                                            <th class="text-center">得分</th>
+                                            <th class="text-center">总分</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+									{% for item in table %}
+                                        <tr>
+                                            <td class="text-center">{{item.0}}<br /></td>
+                                            <td class="text-center">{{item.1}}<br />
+											</td><td class="text-center">{{item.2}}<br />
+											</td>
+                                            <td class="text-center"><input name = {{item.1}} style='text-align:center' type="text" value ={{item.3}} name="firstname" /></td>
+                                            <td class="text-center">{{item.4}}</td>
+                                        </tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+								<div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button  type="submit"  class="btn btn-success">更新学生成绩</button>
+                                        </div>
+                                    </div>
+							</form>
+                            </div>
+                        </div>
+						<h4 class="text-themecolor">知识点得分</h4>
+						<div class="card">
+                            <div class="card-body">
+								<table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">编号</th>
+                                            <th class="text-center">知识点</th>
+                                            <th class="text-center">知识点对应题号</th>
+                                            <th class="text-center">得分</th>
+                                            <th class="text-center">总分</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+									{% for item in table1 %}
+                                        <tr>
+                                            <td class="text-center">{{item.0}}<br /></td>
+                                            <td class="text-center">{{item.1}}<br /></td>
+											<td class="text-center">{{item.2}}<br /></td>
+                                            <td class="text-center">{{item.3}}<br /></td>
+                                            <td class="text-center">{{item.4}}</td>
+                                        </tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+								
+                            </div>
+                        </div>
+						
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+{% endblock %}
+
+
+{% block js %} 
+	<script src="/static/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/static/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/static/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/static/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/static/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/static/dist/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/static/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/static/assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/static/dist/js/custom.min.js"></script>
+{% endblock %}
